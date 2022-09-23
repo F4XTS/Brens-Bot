@@ -1,0 +1,22 @@
+{
+    "auths": [
+        {
+            "DiscordauthorID": "842220666321371168",
+            "token": "b97277971a9848e5b9fa6250a7369df8",
+            "refreshtoken": "8dcf9246c2874c889a5d96957963deb3",
+            "accountID": "eee7f955847e486287cf67f11613fe1d",
+            "loadoutUUID": "c34bda8c-8394-4c82-b8b2-756adb3546d7",
+            "accountName": "\uff42ren\u30c4"
+        },
+        {
+            "DiscordauthorID": "884494904103944253",
+            "token": "8c36c291bf94451bae58171da1fb80fd",
+            "refreshtoken": [
+                "80bcbd0ff5fd4fda9b4b92afa3b2c90b"
+            ],
+            "accountID": "11c0c552a3c84fa0a99b7a096057fd24",
+            "loadoutUUID": "8ba71385-e98f-488a-a68d-5ba3335301fb",
+            "accountName": "BigE 57"
+        }
+    ]
+}

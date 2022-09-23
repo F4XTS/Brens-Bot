@@ -1,0 +1,37 @@
+{
+    "fortnitePCGameClient": {
+        "Encoded": "ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ=",
+        "ClientID": "ec684b8c687f479fadea3cb2ad83f5c6",
+        "Secret": "e1f31c211f28413186262d37a13fc84d"
+    },
+    "fortniteIOSGameClient": {
+        "Encoded": "MzQ0NmNkNzI2OTRjNGE0NDg1ZDgxYjc3YWRiYjIxNDE6OTIwOWQ0YTVlMjVhNDU3ZmI5YjA3NDg5ZDMxM2I0MWE=",
+        "ClientID": "3446cd72694c4a4485d81b77adbb2141",
+        "Secret": "9209d4a5e25a457fb9b07489d313b41a"
+    },
+    "fortniteAndroidGameClient": {
+        "Encoded": "M2Y2OWU1NmM3NjQ5NDkyYzhjYzI5ZjFhZjA4YThhMTI6YjUxZWU5Y2IxMjIzNGY1MGE2OWVmYTY3ZWY1MzgxMmU=",
+        "ClientID": "3f69e56c7649492c8cc29f1af08a8a12",
+        "Secret": "b51ee9cb12234f50a69efa67ef53812e"
+    },
+    "fortniteCNGameClient": {
+        "Encoded": "ZWZlM2NiYjkzODgwNGM3NGIyMGUxMDlkMGVmYzE1NDg6NmUzMWJkYmFlNmE0NGYyNTg0NzQ3MzNkYjc0ZjM5YmE=",
+        "ClientID": "efe3cbb938804c74b20e109d0efc1548",
+        "Secret": "6e31bdbae6a44f258474733db74f39ba"
+    },
+    "fortniteXboxGameClient": {
+        "Encoded": "Y2ZhYTE0YzRiZjg3NDRlM2E1ZWY5YTVkNmMzNDU1OGQ6Cg==",
+        "ClientID": "cfaa14c4bf8744e3a5ef9a5d6c34558d",
+        "Secret": "Unknown"
+    },
+    "fortniteValkyrieGameClient": {
+        "Encoded": "M2UxM2M1YzU3ZjU5NGE1NzhhYmU1MTZlZWNiNjczZmU6NTMwZTMxNmMzMzdlNDA5ODkzYzU1ZWM0NGYyMmNkNjI=",
+        "ClientID": "3e13c5c57f594a578abe516eecb673fe",
+        "Secret": "530e316c337e409893c55ec44f22cd62"
+    },
+    "prod-fn": {
+        "Encoded": "eHl6YTc4OTEzNDNGcjRaU1BrUVoza2FMM0kyc1g4QjU6RjhCVlJ5SElxbWN0OGNOOUtTUGJYc0pzenBpSVpFWUVGRGl5U3hjMXd1QQ==",
+        "ClientID": "xyza7891343Fr4ZSPkQZ3kaL3I2sX8B5",
+        "Secret": "F8BVRyHIqmct8cN9KSPbXsJszpiIZEYEFDiySxc1wuA"
+    }
+}

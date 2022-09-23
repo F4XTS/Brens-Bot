@@ -1,0 +1,169 @@
+@bot.slash_command(name="login", description="Login to your Epic Games Account")
+async def login(ctx, code:str=None):
+    await ctx.defer()
+    if code == None:
+        embed = discord.Embed(title="Bren's Bot", color=discord.Color.random())
+        Eemoji = '<:check:991513136278552586>'
+        #await ctx.send(Eemoji)
+        embed.add_field(name="How To Login", value=f"**• Step 1**: Login To **Epic Games**\n\n**• Step 2**: Copy The Auth Code Next To 'authorizationCode'\nExample: **aabbccddeeff11223344556677889900**\n\n**• Step 3**: Type Out **'!login (authcode)'**\n\n**Then Your Done!** {Eemoji}")
+        embed.set_image(url='https://cdn.discordapp.com/attachments/738325229469958146/991519626473259078/unknown.png')
+        button = Button(label="Epic Games", url="https://www.epicgames.com/id/login?redirectUrl=https%3A%2F%2Fwww.epicgames.com%2Fid%2Fapi%2Fredirect%3FclientId%3Dec684b8c687f479fadea3cb2ad83f5c6%26responseType%3Dcode")
+
+        print("Success")
+        
+        view=View()
+        view.add_item(button)
+        #print(json.dumps(Reeee, indent=4))
+
+        await ctx.respond(embed=embed, view=view)
+    else:
+
+        data = {
+            'grant_type': 'authorization_code',
+            'code': code
+        }
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'basic ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ='
+        }
+    
+        r = requests.post('https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token',data=data, headers=headers)
+        data = r.json()
+        print(data)
+        try:
+            token = data["access_token"]
+            print(f"Generated Token! {token}")
+        except:
+            print(f"Invalid Access Token.")
+
+        FNAPIHeaders = {'Authorization': '94aa02a1-deda7712-adc56662-69db0061'}
+        payload = json.dumps({})
+        accountID = data["account_id"]
+        a_file = open(f"./Epic/Discord/auths.json", "r")
+        json_object = json.load(a_file)
+        a_file.close()
+
+        DiscordauthorID = ctx.author.id
+        print(DiscordauthorID)
+
+            # Checks the auths array to see if discord author ID is in it. If it is, the bot will refresh the token and notice it.
+        for x in json_object['auths']:
+            if x['DiscordauthorID'] == str(DiscordauthorID):
+                print(accountID)
+                response1 = requests.get(f'https://fortniteapi.io/v1/stats?account={accountID}', headers=FNAPIHeaders)
+                R1 = response1.json()
+                print(accountID)
+                clientUsername = response1.json()['name']
+                print(f'Found Client ({clientUsername} - {accountID})!')
+            else:
+                print(accountID)
+                print(DiscordauthorID)
+                print("Not Found")
+
+            #LOCKERINFO
+
+            response = requests.post(f'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/{accountID}/client/QueryProfile?profileId=athena&rvn=-1',data=payload,headers={
+                'Authorization': f'Bearer {token}',
+                'Content-Type': 'application/json'
+            })
+
+            try:
+                error = R1['errorCode']
+                print(f'ERROR: {error}')
+            except:
+                pass
+
+            embed = discord.Embed(title="Logged In As "+clientUsername, color=discord.Color.random())
+
+            loadoutUUID = response.json()['profileChanges'][0]['profile']['stats']['attributes']['loadouts'][0]
+            for i in json_object['auths']:
+                if i['DiscordauthorID'] == str(DiscordauthorID):
+                    #print('a')
+                    print('Found Account') # If this happens, the user is already logged in.
+                    i['loadoutUUID'] = loadoutUUID
+
+
+            #embed.add_field(name='Hello!', value=clientUsername, inline=False)
+
+            x['loadoutUUID'] = f"{loadoutUUID}"
+            x['token'] = f"{token}"
+            x['accountID'] = f"{accountID}"
+            x['accountName'] = f"{clientUsername}"
+            print(x['token'])
+            a_file = open(f"./Epic/Discord/auths.json", "w")
+            json.dump(json_object, a_file, indent = 4)
+            embed = discord.Embed(title=f"Looks like your already logged in as {clientUsername}!", description=f"ID:: {accountID}", color=discord.Color.random())
+            datalocker = response.json()['profileChanges'][0]['profile']['items'][loadoutUUID]['attributes']['locker_slots_data']['slots']['Character']['items'][0]
+            datalocker = datalocker.replace('AthenaCharacter:', '')
+            iconurl = requests.get(f'https://fortnite-api.com/v2/cosmetics/br/search?id={datalocker}')
+            embed.set_thumbnail(url=iconurl.json()['data']['images']['icon'])
+            print(iconurl.json())
+            return await ctx.respond(embed=embed)
+        
+        print('Thanks for using this bot \:D.')
+
+        response = requests.post(f'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/{accountID}/client/QueryProfile?profileId=athena&rvn=-1',data=payload,headers={
+                'Authorization': f'Bearer {token}',
+                'Content-Type': 'application/json'
+            })
+        #print(response.json())
+            # Below dumps all data except loadout UUID and account name. We will dump it later.
+        json_object['auths'].append({
+            "DiscordauthorID": f"{DiscordauthorID}",
+            "token": f"{token}",
+            #"authCode": f'{auth}',
+            "accountID": f"{accountID}",
+            "loadoutUUID": "",
+            "accountName": ""
+        })
+        a_file = open(f"./Epic/Discord/auths.json", "w")
+
+        loadoutUUID = response.json()['profileChanges'][0]['profile']['stats']['attributes']['loadouts'][0]
+
+        response1 = requests.get(f'https://fortniteapi.io/v1/stats?account={accountID}', headers=FNAPIHeaders)
+        R1 = response1.json()
+        clientUsername = response1.json()['name']
+        for i in json_object['auths']:
+            if i['DiscordauthorID'] == str(DiscordauthorID):
+                print(f'Found Client ({clientUsername} - {accountID})!')
+                i['loadoutUUID'] = loadoutUUID
+                i['accountName'] = clientUsername
+                json.dump(json_object, a_file, indent = 4)
+    
+        level = response.json()['profileChanges'][0]['profile']['stats']['attributes']["level"]
+        lockerdata = response.json()['profileChanges'][0]['profile']['items'][loadoutUUID]['attributes']['locker_slots_data']['slots']
+        lockerskinID = lockerdata['Character']['items'][0]
+        lockerpickaxeID = lockerdata['Pickaxe']['items'][0]
+        lockerbackpackID = lockerdata['Backpack']['items'][0]
+        #print(lockerdata)
+        #print(str(json.dumps(lockerdata, indent=4)))
+        lockerskinID = lockerskinID.replace('AthenaCharacter:', '')
+        lockerpickaxeID = lockerpickaxeID.replace('AthenaPickaxe:', '')
+        lockerbackpackID = lockerbackpackID.replace('AthenaBackpack:', '')
+        
+        response = requests.get(f'https://fortnite-api.com/v2/cosmetics/br/search?id={lockerskinID}')
+        url = response.json()['data']['images']['icon']
+
+        response = requests.get(f'https://fortnite-api.com/v2/cosmetics/br/search?id={lockerskinID}')
+        skin = response.json()['data']['name']
+
+        response = requests.get(f'https://fortnite-api.com/v2/cosmetics/br/search?id={lockerpickaxeID}')
+        pickaxe = response.json()['data']['name']
+
+        response = requests.get(f'https://fortnite-api.com/v2/cosmetics/br/search?id={lockerbackpackID}')
+        if lockerbackpackID == "":
+            backbling = "None"
+        else:
+            backbling = response.json()['data']['name']
+
+        
+        embed = discord.Embed(title="Logged In As "+clientUsername, color=discord.Color.random())
+        #embed.add_field(name='Hello!', value=clientUsername, inline=False)
+        embed.add_field(name='Account ID', value=accountID, inline=False)
+        embed.add_field(name='Current Level', value=level, inline=False)
+        embed.add_field(name='Current Skin', value=skin, inline=False)
+        embed.add_field(name='Current Pickaxe', value=pickaxe, inline=False)
+        embed.add_field(name='Current Backbling', value=backbling, inline=False)
+        embed.set_author(name="Requested by " + ctx.author.name, icon_url=ctx.author.avatar.url)
+        embed.set_thumbnail(url=url)
+        await ctx.respond(embed=embed) # Sends embed
